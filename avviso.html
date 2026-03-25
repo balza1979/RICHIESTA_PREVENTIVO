@@ -59,9 +59,16 @@ LA FOTO DEL QUADRO
     const urlParams = new URLSearchParams(window.location.search);
     const mailto = urlParams.get("link");
 
-    document.getElementById("goEmail").onclick = function () {
-        window.location.href = decodeURIComponent(mailto);
-    };
+   document.getElementById("goEmail").onclick = function () {
+
+    // 1. apre l'app email
+    window.location.href = decodeURIComponent(mailto);
+
+    // 2. dopo mezzo secondo porta l’utente alla home
+    setTimeout(function () {
+        window.location.href = "https://balza1979.github.io/Elmi-Documenti/";
+    }, 500);
+};
 </script>
 
 </body>
