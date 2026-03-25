@@ -2,83 +2,144 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>ELMI - Portale Principale</title>
+<title>Richiesta Preventivo</title>
 
-<style> 
-/* Caricamento Cooper Black originale */
-@font-face {
-    font-family: 'CooperBlack';
-    src: url('CooperBlack.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+        background: #f0f0f0;
+    }
 
-body {
-  font-family: 'CooperBlack', serif;
-  background-image: url('sfondo-elmi-verticale.jpg'); /* sfondo */
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  margin: 0;
-  padding: 40px;
-  text-align: center;
-  color: #cc0000; /* rosso */
-}
+    h1 {
+        text-align: center;
+    }
 
-/* 🔽 Sposta tutto più in basso */
-.page-content {
-  padding-top: 220px; /* puoi aumentare o diminuire */
-}
+    .box {
+        background: white;
+        padding: 20px;
+        margin: 0 auto;
+        width: 450px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #aaa;
+    }
 
-h1 {
-  font-size: 70px;
-  margin-bottom: 50px;
-  font-weight: normal;
-}
+    label {
+        font-weight: bold;
+    }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  max-width: 500px;
-  margin: auto;
-  align-items: center;
-  text-align: center;
-}
+    input, textarea {
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #888;
+    }
 
-.button {
-  background: #cc0000; /* rosso */
-  color: white;
-  margin-bottom: 60px;
-  padding: 25px;
-  border-radius: 12px;
-  font-size: 40px;
-  font-family: 'CooperBlack', serif;
-  text-decoration: none;
-  display: block;
-  transition: 0.2s;
-}
+    input[type=file] {
+        padding: 3px;
+    }
 
-.button:hover {
-  background: #990000; /* rosso più scuro */
-}
+    .button {
+        width: 100%;
+        background: #0078D7;
+        color: white;
+        padding: 12px;
+        text-align: center;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+    }
+
+    .button:hover {
+        background: #005A9E;
+    }
+
+    .preview-img {
+        max-width: 100%;
+        margin-bottom: 10px;
+        display: none;
+        border-radius: 5px;
+    }
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="page-content">
-  <h1>ELMI_Documentazione</h1>
-<a class="button" href="http://reserved.elmi-srl.it/Login.aspx">ACCEDI AI TUOI IMPIANTI</a>
-  <div class="container">
-    <a class="button" href="https://balza1979.github.io/Elmi-Ricerca-errori">ERRORI</a>
-    <a class="button" href="https://balza1979.github.io/MultipdfElmi/">SCHEDE MANOVRA ELMI</a>
-      <a class="button" href="https://balza1979.github.io/Schede_ausiliarie_Elmi/">SCHEDE AUSILIARIE ELMI</a>
-    <a class="button" href="https://balza1979.github.io/SMS_VACON/">SMS_VACON</a>
-      <a class="button" href="https://balza1979.github.io/RICERCA_ERRORI_V2/">ERRORI VERS 2</a>
+<h1>Richiesta Preventivo</h1>
 
-  </div>
+<div class="box">
+
+    <label>ID Richiesta *</label>
+    <input type="text" id="txtID" placeholder="Es. ID000123">
+
+    <label>Nome Richiedente *</label>
+    <input type="text" id="txtNome" placeholder="Il tuo nome">
+
+    <label>Schede richieste *</label>
+    <input type="text" id="txtSchede" placeholder="Es. Scheda A, B, C">
+
+    <label>Descrizione richiesta *</label>
+    <textarea id="txtDescrizione" rows="4" placeholder="Inserisci la descrizione"></textarea>
+
+    <label>Foto targhetta quadro</label>
+    <input type="file" id="fileTarghetta" accept="image/*">
+    <img id="previewTarghetta" class="preview-img">
+
+    <label>Foto dispositivo</label>
+    <input type="file" id="fileDispositivo" accept="image/*">
+    <img id="previewDispositivo" class="preview-img">
+
+    <button class="button" id="btnInvia">INVIA RICHIESTA PREVENTIVO</button>
+
 </div>
+
+<script>
+// --- MOSTRA PREVIEW FOTO ---
+function previewFile(input, imgPreview) {
+    input.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            imgPreview.style.display = "block";
+            imgPreview.src = URL.createObjectURL(file);
+        }
+    });
+}
+
+previewFile(document.getElementById("fileTarghetta"), document.getElementById("previewTarghetta"));
+previewFile(document.getElementById("fileDispositivo"), document.getElementById("previewDispositivo"));
+
+// --- INVIO EMAIL ---
+document.getElementById("btnInvia").onclick = function () {
+
+    let id = document.getElementById("txtID").value;
+    let schede = document.getElementById("txtSchede").value;
+    let descrizione = document.getElementById("txtDescrizione").value;
+    let nome = document.getElementById("txtNome").value;
+
+    // verifica obbligatori
+    if (id === "" || schede === "" || descrizione === "" || nome === "") {
+        alert("Compila tutti i campi obbligatori!");
+        return;
+    }
+
+    let oggetto = encodeURIComponent("Richiesta Preventivo - " + id);
+
+    let corpo = encodeURIComponent(
+        "ID: " + id + "%0A" +
+        "Richiedente: " + nome + "%0A" +
+        "Schede richieste: " + schede + "%0A" +
+        "Descrizione: " + descrizione + "%0A%0A" +
+        "*** Nota: Allegare manualmente le foto alla mail se presenti. ***"
+    );
+
+    let mailtoLink = "mailto:tuoindirizzo@azienda.it?subject=" + oggetto + "&body=" + corpo;
+    window.location.href = mailtoLink;
+};
+</script>
 
 </body>
 </html>
