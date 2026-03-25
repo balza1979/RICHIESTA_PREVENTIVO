@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>ATTENZIONE!</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #ffeeee;
+        text-align: center;
+        padding: 50px;
+    }
+
+    h1 {
+        font-size: 70px;
+        color: red;
+        margin-bottom: 40px;
+    }
+
+    p {
+        font-size: 45px;
+        margin-bottom: 60px;
+        font-weight: bold;
+    }
+
+    .button {
+        background: #0078D7;
+        color: white;
+        padding: 30px 40px;
+        font-size: 45px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .button:hover {
+        background: #005A9E;
+    }
+</style>
+
+</head>
+<body>
+
+<h1>ATTENZIONE!</h1>
+
+<p>
+PRIMA DI INVIARE LA MAIL<br>
+RICORDATI DI ALLEGARE<br>
+LA FOTO DELLA TARGHETTA DEL QUADRO!
+</p>
+
+<a id="goEmail" class="button">PROCEDI ALLA MAIL</a>
+
+<script>
+    // Recupera i parametri passati dall’altra pagina
+    const urlParams = new URLSearchParams(window.location.search);
+    const mailto = urlParams.get("link");
+
+    document.getElementById("goEmail").onclick = function () {
+        window.location.href = decodeURIComponent(mailto);
+    };
+</script>
+
+</body>
+</html>
