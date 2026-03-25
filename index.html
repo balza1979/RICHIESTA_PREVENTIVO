@@ -223,6 +223,22 @@ document.getElementById("btnInvia").onclick = function () {
     window.location.href = "avviso.html?link=" + encodeURIComponent(mailtoLink);
 
 };
+    // --- Pulsanti per compilazione rapida delle schede ---
+document.querySelectorAll(".miniBtn").forEach(btn => {
+    btn.addEventListener("click", function () {
+
+        let campo = document.getElementById("txtSchede");
+
+        // Se vuoto → inserisci solo il valore cliccato
+        if (campo.value.trim() === "") {
+            campo.value = this.dataset.value;
+        } 
+        // Se già compilato → aggiungi separato da virgola
+        else {
+            campo.value += ", " + this.dataset.value;
+        }
+    });
+});
 </script>
 
 </body>
