@@ -188,7 +188,8 @@ document.getElementById("btnInvia").onclick = function () {
     // tua email
     let mailtoLink = "mailto:p.mazzucchelli@elmi-srl.it?subject=" + oggetto + "&body=" + corpo;
 
-    window.location.href = mailtoLink;
+    window.location.href = "avviso.html?link=" + encodeURIComponent(mailtoLink);
+
 };
 </script>
 
