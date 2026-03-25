@@ -52,6 +52,15 @@
         height: 250px;
     }
 
+    /* --- CAMPO SCHEDE RICHIESTE (textarea modificato) --- */
+    #txtSchede {
+        height: 180px;
+        resize: none;
+        font-size: 40px;
+        padding: 25px;
+        line-height: 1.3;
+    }
+
     input[type=file] {
         padding: 12px;
         font-size: 35px;
@@ -94,12 +103,7 @@
         cursor: pointer;
         flex-grow: 1;
     }
-#txtSchede {
-    height: 180px;      /* MODIFICALO COME VUOI */
-    resize: none;       /* evita che l’utente deformi il box */
-    font-size: 40px;    /* stesso font degli altri */
-    padding: 25px;      /* margini interni per leggibilità */
-   
+
     .miniBtn:hover {
         background: #000;
     }
@@ -181,16 +185,17 @@ previewFile(document.getElementById("fileTarghetta"), document.getElementById("p
 previewFile(document.getElementById("fileDispositivo"), document.getElementById("previewDispositivo"));
 
 
-// --- PULSANTI RAPIDI ---
+// --- PULSANTI RAPIDI CON ELENCO PUNTATO ---
 document.querySelectorAll(".miniBtn").forEach(btn => {
     btn.addEventListener("click", function () {
 
         let campo = document.getElementById("txtSchede");
+        let valore = "• " + this.dataset.value;
 
         if (campo.value.trim() === "") {
-            campo.value = this.dataset.value;
+            campo.value = valore;
         } else {
-            campo.value += ", " + this.dataset.value;
+            campo.value += "\n" + valore;
         }
 
         campo.focus();
@@ -214,13 +219,12 @@ document.getElementById("btnInvia").onclick = function () {
     let oggetto = encodeURIComponent("Richiesta Preventivo - " + id);
 
     let corpo = encodeURIComponent(
-    "ID: " + id + "%0D%0A" +
-    "Richiedente: " + nome + "%0D%0A" +
-    "Schede richieste:" + "%0D%0A" +
-    schede.replace(/\n/g, "%0D%0A") + "%0D%0A" +
-    "%0D%0A" +
-    "Descrizione: " + descrizione + "%0D%0A"
-);
+        "ID: " + id + "%0D%0A" +
+        "Richiedente: " + nome + "%0D%0A" +
+        "Schede richieste:" + "%0D%0A" +
+        schede.replace(/\n/g, "%0D%0A") + "%0D%0A%0D%0A" +
+        "Descrizione: " + descrizione + "%0D%0A"
+    );
 
     let mailtoLink = "mailto:l.balzanelli@elmi-srl.it?subject=" + oggetto + "&body=" + corpo;
 
@@ -230,3 +234,4 @@ document.getElementById("btnInvia").onclick = function () {
 
 </body>
 </html>
+
