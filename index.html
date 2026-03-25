@@ -10,57 +10,66 @@
         margin: 0;
         padding: 20px;
         background: #f0f0f0;
-        font-size: 22px;
+        font-size: 40px; /* FONT MOLTO GRANDE */
     }
 
     h1 {
         text-align: center;
-        font-size: 32px;
-        margin-bottom: 25px;
+        font-size: 55px;
+        margin-bottom: 35px;
     }
 
     .box {
         background: white;
-        padding: 30px;
+        padding: 40px;
         margin: 0 auto;
-        max-width: 900px;
+        max-width: 950px;
         width: 100%;
-        border-radius: 20px;
-        box-shadow: 0 0 20px #aaa;
+        border-radius: 25px;
+        box-shadow: 0 0 25px #aaa;
     }
 
     label {
         font-weight: bold;
-        font-size: 24px;
+        font-size: 45px;
     }
 
     input, textarea {
         width: 100%;
-        margin-top: 10px;
-        margin-bottom: 25px;
-        padding: 15px;
-        border-radius: 10px;
-        border: 2px solid #666;
-        font-size: 22px;
+        margin-top: 15px;
+        margin-bottom: 35px;
+        padding: 22px;
+        border-radius: 15px;
+        border: 3px solid #666;
+        font-size: 40px;
+    }
+
+    /* CAMPO ID PIÙ CORTO VISIVAMENTE */
+    #txtID {
+        max-width: 350px;
+    }
+
+    textarea {
+        height: 250px;
     }
 
     input[type=file] {
-        padding: 10px;
-        font-size: 20px;
+        padding: 12px;
+        font-size: 35px;
     }
 
     .button {
         width: 100%;
         background: #0078D7;
         color: white;
-        padding: 20px;
+        padding: 30px;
         text-align: center;
-        border-radius: 15px;
+        border-radius: 20px;
         cursor: pointer;
-        font-size: 26px;
+        font-size: 48px;
         font-weight: bold;
         border: none;
-        margin-top: 10px;
+        margin-top: 20px;
         margin-bottom: 10px;
     }
 
@@ -70,37 +79,34 @@
 
     .preview-img {
         max-width: 100%;
-        margin-bottom: 25px;
+        margin-bottom: 35px;
         display: none;
-        border-radius: 10px;
-        border: 2px solid #aaa;
+        border-radius: 15px;
+        border: 3px solid #aaa;
     }
 
+    /* Versione mobile ancora più grande */
     @media only screen and (max-width: 600px) {
         body {
-            font-size: 24px;
+            font-size: 50px;
         }
 
         h1 {
-            font-size: 36px;
-        }
-
-        .box {
-            padding: 25px;
+            font-size: 65px;
         }
 
         input, textarea {
-            font-size: 24px;
-            padding: 18px;
+            font-size: 50px;
+            padding: 30px;
         }
 
         label {
-            font-size: 26px;
+            font-size: 55px;
         }
 
         .button {
-            font-size: 30px;
-            padding: 25px;
+            font-size: 60px;
+            padding: 35px;
         }
     }
 </style>
@@ -113,16 +119,16 @@
 <div class="box">
 
     <label>ID Richiesta *</label>
-    <input type="text" id="txtID" placeholder="Es. ID000123">
+    <input type="text" id="txtID" maxlength="10" placeholder="Es. 12345">
 
     <label>Nome Richiedente *</label>
     <input type="text" id="txtNome" placeholder="Il tuo nome">
 
     <label>Schede richieste *</label>
-    <input type="text" id="txtSchede" placeholder="Es. Scheda A, B, C">
+    <input type="text" id="txtSchede" placeholder="Es. A, B, C">
 
     <label>Descrizione richiesta *</label>
-    <textarea id="txtDescrizione" rows="4" placeholder="Inserisci la descrizione"></textarea>
+    <textarea id="txtDescrizione" placeholder="Inserisci la descrizione"></textarea>
 
     <label>Foto targhetta quadro</label>
     <input type="file" id="fileTarghetta" accept="image/*">
@@ -137,7 +143,7 @@
 </div>
 
 <script>
-// --- MOSTRA PREVIEW FOTO ---
+// --- PREVIEW FOTO ---
 function previewFile(input, imgPreview) {
     input.addEventListener("change", function () {
         const file = this.files[0];
@@ -159,7 +165,7 @@ document.getElementById("btnInvia").onclick = function () {
     let descrizione = document.getElementById("txtDescrizione").value;
     let nome = document.getElementById("txtNome").value;
 
-    // verifica obbligatori
+    // obbligatori
     if (id === "" || schede === "" || descrizione === "" || nome === "") {
         alert("Compila tutti i campi obbligatori!");
         return;
@@ -167,14 +173,16 @@ document.getElementById("btnInvia").onclick = function () {
 
     let oggetto = encodeURIComponent("Richiesta Preventivo - " + id);
 
+    // puoi modificare la formattazione come vuoi
     let corpo = encodeURIComponent(
-        "ID: " + id + "%0A" +
-        "Richiedente: " + nome + "%0A" +
-        "Schede richieste: " + schede + "%0A" +
-        "Descrizione: " + descrizione + "%0A%0A" +
-        "*** Nota: allegare manualmente le foto alla mail se presenti. ***"
+        "ID: " + id + "\n" +
+        "Richiedente: " + nome + "\n" +
+        "Schede richieste: " + schede + "\n" +
+        "Descrizione: " + descrizione + "\n\n" +
+        "*** Allegare manualmente le foto alla mail. ***"
     );
 
+    // tua email
     let mailtoLink = "mailto:p.mazzucchelli@elmi-srl.it?subject=" + oggetto + "&body=" + corpo;
 
     window.location.href = mailtoLink;
