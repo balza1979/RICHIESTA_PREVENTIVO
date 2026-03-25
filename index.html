@@ -95,8 +95,11 @@
         flex-grow: 1;
     }
 #txtSchede {
-    height: 200px;   /* aumenta come vuoi */
-}
+    height: 180px;      /* MODIFICALO COME VUOI */
+    resize: none;       /* evita che l’utente deformi il box */
+    font-size: 40px;    /* stesso font degli altri */
+    padding: 25px;      /* margini interni per leggibilità */
+   
     .miniBtn:hover {
         background: #000;
     }
@@ -145,7 +148,7 @@
     <button type="button" class="miniBtn" data-value="SCHEDA CABINA">SCHEDA CABINA</button>
 </div>
 
-<input type="text" id="txtSchede" placeholder="Es. A, B, C">
+<textarea id="txtSchede" placeholder="Es. A, B, C"></textarea>
 
 <label>Descrizione richiesta *</label>
 <textarea id="txtDescrizione" placeholder="Inserisci la descrizione"></textarea>
