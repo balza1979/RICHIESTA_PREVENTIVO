@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>ELMI - Portale Principale</title>
+
+<style> 
+/* Caricamento Cooper Black originale */
+@font-face {
+    font-family: 'CooperBlack';
+    src: url('CooperBlack.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  font-family: 'CooperBlack', serif;
+  background-image: url('sfondo-elmi-verticale.jpg'); /* sfondo */
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 40px;
+  text-align: center;
+  color: #cc0000; /* rosso */
+}
+
+/* 🔽 Sposta tutto più in basso */
+.page-content {
+  padding-top: 220px; /* puoi aumentare o diminuire */
+}
+
+h1 {
+  font-size: 70px;
+  margin-bottom: 50px;
+  font-weight: normal;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 500px;
+  margin: auto;
+  align-items: center;
+  text-align: center;
+}
+
+.button {
+  background: #cc0000; /* rosso */
+  color: white;
+  margin-bottom: 60px;
+  padding: 25px;
+  border-radius: 12px;
+  font-size: 40px;
+  font-family: 'CooperBlack', serif;
+  text-decoration: none;
+  display: block;
+  transition: 0.2s;
+}
+
+.button:hover {
+  background: #990000; /* rosso più scuro */
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-content">
+  <h1>ELMI_Documentazione</h1>
+<a class="button" href="http://reserved.elmi-srl.it/Login.aspx">ACCEDI AI TUOI IMPIANTI</a>
+  <div class="container">
+    <a class="button" href="https://balza1979.github.io/Elmi-Ricerca-errori">ERRORI</a>
+    <a class="button" href="https://balza1979.github.io/MultipdfElmi/">SCHEDE MANOVRA ELMI</a>
+      <a class="button" href="https://balza1979.github.io/Schede_ausiliarie_Elmi/">SCHEDE AUSILIARIE ELMI</a>
+    <a class="button" href="https://balza1979.github.io/SMS_VACON/">SMS_VACON</a>
+      <a class="button" href="https://balza1979.github.io/RICERCA_ERRORI_V2/">ERRORI VERS 2</a>
+
+  </div>
+</div>
+
+</body>
+</html>
