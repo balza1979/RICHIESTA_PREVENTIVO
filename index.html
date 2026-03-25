@@ -230,15 +230,13 @@ document.getElementById("btnInvia").onclick = function () {
     let oggetto = encodeURIComponent("Richiesta Preventivo - " + id);
 
     let corpo = encodeURIComponent(
-        "ID: " + id + "%0D%0A" +
-        
-        "%0D%0A" +
+        "ID: " + id + "%0D%0A" + "%0D%0A" +
         "Problema segnalato: " + "%0D%0A" +
         descrizione + "%0D%0A" + "%0D%0A" + 
         "Schede richieste:" + "%0D%0A" +
         schede.replace(/\n/g, "%0D%0A") + "%0D%0A%0D%0A" +
         "Richiedente: " + nome + "%0D%0A" +
-        (telefono ? "Telefono: " + telefono + "%0D%0A" : "") +
+        (telefono ? "Telefono: " + telefono + "%0D%0A" : "") 
         
     );
 
