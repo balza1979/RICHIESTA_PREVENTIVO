@@ -52,7 +52,6 @@
         height: 250px;
     }
 
-    /* --- CAMPO SCHEDE RICHIESTE (textarea modificato) --- */
     #txtSchede {
         height: 180px;
         resize: none;
@@ -158,8 +157,8 @@
 <textarea id="txtDescrizione" placeholder="Inserisci la descrizione"></textarea>
 
 <div>
-    <label>NUmero telefonico di riferimento*</label>
-    <input type="text" id="txtNome" placeholder="Il tuo nome">
+    <label>Numero telefonico di riferimento *</label>
+    <input type="text" id="txtTelefono" placeholder="Telefono">
 </div>
 
 <button class="button" id="btnInvia">INVIA RICHIESTA PREVENTIVO</button>
@@ -167,8 +166,10 @@
 </div>
 
 <script>
-// --- PREVIEW FOTO ---
+// --- PREVIEW FOTO (con controllo sicurezza) ---
 function previewFile(input, imgPreview) {
+    if (!input || !imgPreview) return;
+
     input.addEventListener("change", function () {
         const file = this.files[0];
         if (file) {
@@ -178,11 +179,12 @@ function previewFile(input, imgPreview) {
     });
 }
 
+// Se non esistono, non dà errore
 previewFile(document.getElementById("fileTarghetta"), document.getElementById("previewTarghetta"));
 previewFile(document.getElementById("fileDispositivo"), document.getElementById("previewDispositivo"));
 
 
-// --- PULSANTI RAPIDI CON ELENCO PUNTATO ---
+// --- PULSANTI RAPIDI ---
 document.querySelectorAll(".miniBtn").forEach(btn => {
     btn.addEventListener("click", function () {
 
@@ -207,8 +209,9 @@ document.getElementById("btnInvia").onclick = function () {
     let schede = document.getElementById("txtSchede").value;
     let descrizione = document.getElementById("txtDescrizione").value;
     let nome = document.getElementById("txtNome").value;
+    let telefono = document.getElementById("txtTelefono").value;
 
-    if (id === "" || schede === "" || descrizione === "" || nome === "") {
+    if (id === "" || schede === "" || descrizione === "" || nome === "" || telefono === "") {
         alert("Compila tutti i campi obbligatori!");
         return;
     }
@@ -218,6 +221,7 @@ document.getElementById("btnInvia").onclick = function () {
     let corpo = encodeURIComponent(
         "ID: " + id + "%0D%0A" +
         "Richiedente: " + nome + "%0D%0A" +
+        "Telefono: " + telefono + "%0D%0A%0D%0A" +
         "Schede richieste:" + "%0D%0A" +
         schede.replace(/\n/g, "%0D%0A") + "%0D%0A%0D%0A" +
         "Descrizione: " + descrizione + "%0D%0A"
@@ -231,4 +235,3 @@ document.getElementById("btnInvia").onclick = function () {
 
 </body>
 </html>
-
