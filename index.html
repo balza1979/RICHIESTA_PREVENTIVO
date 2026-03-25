@@ -60,11 +60,6 @@
         line-height: 1.3;
     }
 
-    input[type=file] {
-        padding: 12px;
-        font-size: 35px;
-    }
-
     .button {
         width: 100%;
         background: #0078D7;
@@ -107,14 +102,6 @@
         background: #000;
     }
 
-    .preview-img {
-        max-width: 100%;
-        margin-bottom: 35px;
-        display: none;
-        border-radius: 15px;
-        border: 3px solid #aaa;
-    }
-
     @media only screen and (max-width: 600px) {
         body { font-size: 50px; }
         h1 { font-size: 65px; }
@@ -131,16 +118,29 @@
 
 <div class="box">
 
+<!-- 1. ID -->
 <div>
     <label>ID Richiesta *</label>
     <input type="text" id="txtID" maxlength="10" placeholder="Es. 12345">
 </div>
 
+<!-- 2. Nome -->
 <div>
     <label>Nome Richiedente *</label>
     <input type="text" id="txtNome" placeholder="Il tuo nome">
 </div>
 
+<!-- 3. Telefono (NON obbligatorio) -->
+<div>
+    <label>Numero telefonico di riferimento (opzionale)</label>
+    <input type="text" id="txtTelefono" placeholder="Telefono">
+</div>
+
+<!-- 4. Descrizione -->
+<label>Descrivere il problema *</label>
+<textarea id="txtDescrizione" placeholder="Inserisci la descrizione del problema"></textarea>
+
+<!-- 5. Pulsanti schede -->
 <label>Schede richieste *</label>
 
 <div class="button-group">
@@ -151,39 +151,14 @@
     <button type="button" class="miniBtn" data-value="SCHEDA CABINA">SCHEDA CABINA</button>
 </div>
 
-<textarea id="txtSchede" placeholder="Es. A, B, C"></textarea>
-
-<label>Descrizione richiesta *</label>
-<textarea id="txtDescrizione" placeholder="Inserisci la descrizione"></textarea>
-
-<div>
-    <label>Numero telefonico di riferimento *</label>
-    <input type="text" id="txtTelefono" placeholder="Telefono">
-</div>
+<!-- 6. Campo schede -->
+<textarea id="txtSchede" placeholder="Seleziona le schede dai pulsanti sopra"></textarea>
 
 <button class="button" id="btnInvia">INVIA RICHIESTA PREVENTIVO</button>
 
 </div>
 
 <script>
-// --- PREVIEW FOTO (con controllo sicurezza) ---
-function previewFile(input, imgPreview) {
-    if (!input || !imgPreview) return;
-
-    input.addEventListener("change", function () {
-        const file = this.files[0];
-        if (file) {
-            imgPreview.style.display = "block";
-            imgPreview.src = URL.createObjectURL(file);
-        }
-    });
-}
-
-// Se non esistono, non dà errore
-previewFile(document.getElementById("fileTarghetta"), document.getElementById("previewTarghetta"));
-previewFile(document.getElementById("fileDispositivo"), document.getElementById("previewDispositivo"));
-
-
 // --- PULSANTI RAPIDI ---
 document.querySelectorAll(".miniBtn").forEach(btn => {
     btn.addEventListener("click", function () {
@@ -211,7 +186,7 @@ document.getElementById("btnInvia").onclick = function () {
     let nome = document.getElementById("txtNome").value;
     let telefono = document.getElementById("txtTelefono").value;
 
-    if (id === "" || schede === "" || descrizione === "" || nome === "" || telefono === "") {
+    if (id === "" || schede === "" || descrizione === "" || nome === "") {
         alert("Compila tutti i campi obbligatori!");
         return;
     }
@@ -221,10 +196,11 @@ document.getElementById("btnInvia").onclick = function () {
     let corpo = encodeURIComponent(
         "ID: " + id + "%0D%0A" +
         "Richiedente: " + nome + "%0D%0A" +
-        "Telefono: " + telefono + "%0D%0A%0D%0A" +
+        (telefono ? "Telefono: " + telefono + "%0D%0A" : "") +
+        "%0D%0A" +
         "Schede richieste:" + "%0D%0A" +
         schede.replace(/\n/g, "%0D%0A") + "%0D%0A%0D%0A" +
-        "Descrizione: " + descrizione + "%0D%0A"
+        "Problema segnalato: " + descrizione + "%0D%0A"
     );
 
     let mailtoLink = "mailto:l.balzanelli@elmi-srl.it?subject=" + oggetto + "&body=" + corpo;
