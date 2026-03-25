@@ -34,7 +34,7 @@
         font-size: 45px;
     }
 
-    input, textarea {
+    input, textarea, select {
         width: 100%;
         margin-top: 15px;
         margin-bottom: 35px;
@@ -105,7 +105,7 @@
     @media only screen and (max-width: 600px) {
         body { font-size: 50px; }
         h1 { font-size: 65px; }
-        input, textarea { font-size: 50px; padding: 30px; }
+        input, textarea, select { font-size: 50px; padding: 30px; }
         label { font-size: 55px; }
         .button { font-size: 60px; padding: 35px; }
     }
@@ -130,7 +130,7 @@
     <input type="text" id="txtNome" placeholder="Il tuo nome">
 </div>
 
-<!-- 3. Telefono (NON obbligatorio) -->
+<!-- 3. Telefono (opzionale) -->
 <div>
     <label>Numero telefonico di riferimento (opzionale)</label>
     <input type="text" id="txtTelefono" placeholder="Telefono">
@@ -140,7 +140,7 @@
 <label>Descrivere il problema *</label>
 <textarea id="txtDescrizione" placeholder="Inserisci la descrizione del problema"></textarea>
 
-<!-- 5. Pulsanti schede -->
+<!-- 5. Pulsanti schede principali -->
 <label>Schede richieste *</label>
 
 <div class="button-group">
@@ -151,8 +151,27 @@
     <button type="button" class="miniBtn" data-value="SCHEDA CABINA">SCHEDA CABINA</button>
 </div>
 
-<!-- 6. Campo schede -->
-<textarea id="txtSchede" placeholder="Seleziona le schede dai pulsanti sopra"></textarea>
+<!-- 6. Tendina dispositivi aggiuntivi -->
+<label>Altri dispositivi</label>
+<select id="selectDispositivi">
+    <option value="">Seleziona altri dispositivi</option>
+    <option value="SCHEDA PRENOTAZIONI 1F">SCHEDA PRENOTAZIONI 1F</option>
+    <option value="SCHEDA RELÈ 1R">SCHEDA RELÈ 1R</option>
+    <option value="SCHEDA DISPLAY 1N">SCHEDA DISPLAY 1N</option>
+    <option value="SCHEDA OPT PER 1C">SCHEDA OPT PER 1C</option>
+    <option value="CPU B2XX">CPU B2XX</option>
+    <option value="CPU B3XX">CPU B3XX</option>
+    <option value="CPU K2XX">CPU K2XX</option>
+    <option value="CPU K3XX">CPU K3XX</option>
+    <option value="CIRCUITO SICUREZZA">CIRCUITO SICUREZZA</option>
+    <option value="SCHEDA ALIMENTAZIONE E1">SCHEDA ALIMENTAZIONE E1</option>
+    <option value="SCHEDA EMERGENZA E2">SCHEDA EMERGENZA E2</option>
+    <option value="SCHEDA EMERGENZA EMERTECH">SCHEDA EMERGENZA EMERTECH</option>
+    <option value="TELESOCCORSO">TELESOCCORSO</option>
+</select>
+
+<!-- 7. Campo schede -->
+<textarea id="txtSchede" placeholder="Seleziona le schede dai pulsanti o dalla tendina"></textarea>
 
 <button class="button" id="btnInvia">INVIA RICHIESTA PREVENTIVO</button>
 
@@ -176,6 +195,23 @@ document.querySelectorAll(".miniBtn").forEach(btn => {
     });
 });
 
+// --- TENDINA DISPOSITIVI ---
+document.getElementById("selectDispositivi").addEventListener("change", function () {
+    let valore = this.value;
+    if (valore === "") return;
+
+    let campo = document.getElementById("txtSchede");
+    let testo = "• " + valore;
+
+    if (campo.value.trim() === "") {
+        campo.value = testo;
+    } else {
+        campo.value += "\n" + testo;
+    }
+
+    campo.focus();
+    this.value = ""; // reset tendina
+});
 
 // --- INVIO EMAIL ---
 document.getElementById("btnInvia").onclick = function () {
