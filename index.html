@@ -10,7 +10,7 @@
         margin: 0;
         padding: 20px;
         background: #f0f0f0;
-        font-size: 40px; /* FONT MOLTO GRANDE */
+        font-size: 40px;
     }
 
     h1 {
@@ -44,7 +44,6 @@
         font-size: 40px;
     }
 
-    /* CAMPO ID PIÙ CORTO VISIVAMENTE */
     #txtID {
         max-width: 350px;
     }
@@ -73,30 +72,31 @@
         margin-bottom: 10px;
     }
 
-    .button-group {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.miniBtn {
-    background: #444;
-    color: white;
-    padding: 18px 25px;
-    font-size: 32px;
-    border-radius: 15px;
-    border: none;
-    cursor: pointer;
-    flex-grow: 1;
-}
-
-.miniBtn:hover {
-    background: #000;
-}
     .button:hover {
         background: #005A9E;
+    }
+
+    .button-group {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .miniBtn {
+        background: #444;
+        color: white;
+        padding: 18px 25px;
+        font-size: 32px;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        flex-grow: 1;
+    }
+
+    .miniBtn:hover {
+        background: #000;
     }
 
     .preview-img {
@@ -107,29 +107,12 @@
         border: 3px solid #aaa;
     }
 
-    /* Versione mobile ancora più grande */
     @media only screen and (max-width: 600px) {
-        body {
-            font-size: 50px;
-        }
-
-        h1 {
-            font-size: 65px;
-        }
-
-        input, textarea {
-            font-size: 50px;
-            padding: 30px;
-        }
-
-        label {
-            font-size: 55px;
-        }
-
-        .button {
-            font-size: 60px;
-            padding: 35px;
-        }
+        body { font-size: 50px; }
+        h1 { font-size: 65px; }
+        input, textarea { font-size: 50px; padding: 30px; }
+        label { font-size: 55px; }
+        .button { font-size: 60px; padding: 35px; }
     }
 </style>
 
@@ -139,6 +122,7 @@
 <h1>Richiesta Preventivo</h1>
 
 <div class="box">
+
 <div>
     <label>ID Richiesta *</label>
     <input type="text" id="txtID" maxlength="10" placeholder="Es. 12345">
@@ -149,7 +133,8 @@
     <input type="text" id="txtNome" placeholder="Il tuo nome">
 </div>
 
-    <label>Schede richieste *</label>
+<label>Schede richieste *</label>
+
 <div class="button-group">
     <button type="button" class="miniBtn" data-value="KIT SCHEDE MANOVRA">KIT SCHEDE MANOVRA</button>
     <button type="button" class="miniBtn" data-value="SCHEDA EMERGENZA">SCHEDA EMERGENZA</button>
@@ -158,22 +143,20 @@
     <button type="button" class="miniBtn" data-value="SCHEDA CABINA">SCHEDA CABINA</button>
 </div>
 
+<input type="text" id="txtSchede" placeholder="Es. A, B, C">
 
-    
-    <input type="text" id="txtSchede" placeholder="Es. A, B, C">
+<label>Descrizione richiesta *</label>
+<textarea id="txtDescrizione" placeholder="Inserisci la descrizione"></textarea>
 
-    <label>Descrizione richiesta *</label>
-    <textarea id="txtDescrizione" placeholder="Inserisci la descrizione"></textarea>
+<label>Foto targhetta quadro</label>
+<input type="file" id="fileTarghetta" accept="image/*">
+<img id="previewTarghetta" class="preview-img">
 
-    <label>Foto targhetta quadro</label>
-    <input type="file" id="fileTarghetta" accept="image/*">
-    <img id="previewTarghetta" class="preview-img">
+<label>Foto dispositivo</label>
+<input type="file" id="fileDispositivo" accept="image/*">
+<img id="previewDispositivo" class="preview-img">
 
-    <label>Foto dispositivo</label>
-    <input type="file" id="fileDispositivo" accept="image/*">
-    <img id="previewDispositivo" class="preview-img">
-
-    <button class="button" id="btnInvia">INVIA RICHIESTA PREVENTIVO</button>
+<button class="button" id="btnInvia">INVIA RICHIESTA PREVENTIVO</button>
 
 </div>
 
@@ -192,6 +175,24 @@ function previewFile(input, imgPreview) {
 previewFile(document.getElementById("fileTarghetta"), document.getElementById("previewTarghetta"));
 previewFile(document.getElementById("fileDispositivo"), document.getElementById("previewDispositivo"));
 
+
+// --- PULSANTI RAPIDI ---
+document.querySelectorAll(".miniBtn").forEach(btn => {
+    btn.addEventListener("click", function () {
+
+        let campo = document.getElementById("txtSchede");
+
+        if (campo.value.trim() === "") {
+            campo.value = this.dataset.value;
+        } else {
+            campo.value += ", " + this.dataset.value;
+        }
+
+        campo.focus();
+    });
+});
+
+
 // --- INVIO EMAIL ---
 document.getElementById("btnInvia").onclick = function () {
 
@@ -200,7 +201,6 @@ document.getElementById("btnInvia").onclick = function () {
     let descrizione = document.getElementById("txtDescrizione").value;
     let nome = document.getElementById("txtNome").value;
 
-    // obbligatori
     if (id === "" || schede === "" || descrizione === "" || nome === "") {
         alert("Compila tutti i campi obbligatori!");
         return;
@@ -208,37 +208,17 @@ document.getElementById("btnInvia").onclick = function () {
 
     let oggetto = encodeURIComponent("Richiesta Preventivo - " + id);
 
-    // puoi modificare la formattazione come vuoi
-   let corpo = encodeURIComponent(
-    "ID: " + id + "%0D%0A" +
-    "Richiedente: " + nome + "%0D%0A" +
-    "Schede richieste: " + schede + "%0D%0A" +
-    "Descrizione: " + descrizione + "%0D%0A" 
-     
-);
+    let corpo = encodeURIComponent(
+        "ID: " + id + "%0D%0A" +
+        "Richiedente: " + nome + "%0D%0A" +
+        "Schede richieste: " + schede + "%0D%0A" +
+        "Descrizione: " + descrizione + "%0D%0A"
+    );
 
-    // tua email
     let mailtoLink = "mailto:l.balzanelli@elmi-srl.it?subject=" + oggetto + "&body=" + corpo;
 
     window.location.href = "avviso.html?link=" + encodeURIComponent(mailtoLink);
-
 };
-    // --- Pulsanti per compilazione rapida delle schede ---
-document.querySelectorAll(".miniBtn").forEach(btn => {
-    btn.addEventListener("click", function () {
-
-        let campo = document.getElementById("txtSchede");
-
-        // Se vuoto → inserisci solo il valore cliccato
-        if (campo.value.trim() === "") {
-            campo.value = this.dataset.value;
-        } 
-        // Se già compilato → aggiungi separato da virgola
-        else {
-            campo.value += ", " + this.dataset.value;
-        }
-    });
-});
 </script>
 
 </body>
