@@ -73,6 +73,28 @@
         margin-bottom: 10px;
     }
 
+    .button-group {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.miniBtn {
+    background: #444;
+    color: white;
+    padding: 18px 25px;
+    font-size: 32px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.miniBtn:hover {
+    background: #000;
+}
     .button:hover {
         background: #005A9E;
     }
@@ -128,6 +150,16 @@
 </div>
 
     <label>Schede richieste *</label>
+<div class="button-group">
+    <button type="button" class="miniBtn" data-value="KIT SCHEDE MANOVRA">KIT SCHEDE MANOVRA</button>
+    <button type="button" class="miniBtn" data-value="SCHEDA EMERGENZA">SCHEDA EMERGENZA</button>
+    <button type="button" class="miniBtn" data-value="PROGRAMMATORE">PROGRAMMATORE</button>
+    <button type="button" class="miniBtn" data-value="SCHEDA QUADRO">SCHEDA QUADRO</button>
+    <button type="button" class="miniBtn" data-value="SCHEDA CABINA">SCHEDA CABINA</button>
+</div>
+
+
+    
     <input type="text" id="txtSchede" placeholder="Es. A, B, C">
 
     <label>Descrizione richiesta *</label>
