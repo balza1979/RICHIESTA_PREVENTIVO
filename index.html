@@ -1,15 +1,21 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Richiesta Preventivo</title>
+
 <style>
     body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 20px;
         background: #f0f0f0;
-        font-size: 22px; /* GRANDE */
+        font-size: 22px;
     }
 
     h1 {
         text-align: center;
-        font-size: 32px;  /* TITOLO PIÙ GRANDE */
+        font-size: 32px;
         margin-bottom: 25px;
     }
 
@@ -17,7 +23,7 @@
         background: white;
         padding: 30px;
         margin: 0 auto;
-        max-width: 900px;        /* PIÙ LARGO */
+        max-width: 900px;
         width: 100%;
         border-radius: 20px;
         box-shadow: 0 0 20px #aaa;
@@ -25,7 +31,7 @@
 
     label {
         font-weight: bold;
-        font-size: 24px; /* ETICHETTE GRANDI */
+        font-size: 24px;
     }
 
     input, textarea {
@@ -35,7 +41,7 @@
         padding: 15px;
         border-radius: 10px;
         border: 2px solid #666;
-        font-size: 22px;  /* TESTO GRANDE */
+        font-size: 22px;
     }
 
     input[type=file] {
@@ -51,7 +57,7 @@
         text-align: center;
         border-radius: 15px;
         cursor: pointer;
-        font-size: 26px; /* PULSANTE ENORME */
+        font-size: 26px;
         font-weight: bold;
         border: none;
         margin-top: 10px;
@@ -70,7 +76,6 @@
         border: 2px solid #aaa;
     }
 
-    /* VERSIONE MOBILE PERFETTA */
     @media only screen and (max-width: 600px) {
         body {
             font-size: 24px;
@@ -99,3 +104,82 @@
         }
     }
 </style>
+
+</head>
+<body>
+
+<h1>Richiesta Preventivo</h1>
+
+<div class="box">
+
+    <label>ID Richiesta *</label>
+    <input type="text" id="txtID" placeholder="Es. ID000123">
+
+    <label>Nome Richiedente *</label>
+    <input type="text" id="txtNome" placeholder="Il tuo nome">
+
+    <label>Schede richieste *</label>
+    <input type="text" id="txtSchede" placeholder="Es. Scheda A, B, C">
+
+    <label>Descrizione richiesta *</label>
+    <textarea id="txtDescrizione" rows="4" placeholder="Inserisci la descrizione"></textarea>
+
+    <label>Foto targhetta quadro</label>
+    <input type="file" id="fileTarghetta" accept="image/*">
+    <img id="previewTarghetta" class="preview-img">
+
+    <label>Foto dispositivo</label>
+    <input type="file" id="fileDispositivo" accept="image/*">
+    <img id="previewDispositivo" class="preview-img">
+
+    <button class="button" id="btnInvia">INVIA RICHIESTA PREVENTIVO</button>
+
+</div>
+
+<script>
+// --- MOSTRA PREVIEW FOTO ---
+function previewFile(input, imgPreview) {
+    input.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            imgPreview.style.display = "block";
+            imgPreview.src = URL.createObjectURL(file);
+        }
+    });
+}
+
+previewFile(document.getElementById("fileTarghetta"), document.getElementById("previewTarghetta"));
+previewFile(document.getElementById("fileDispositivo"), document.getElementById("previewDispositivo"));
+
+// --- INVIO EMAIL ---
+document.getElementById("btnInvia").onclick = function () {
+
+    let id = document.getElementById("txtID").value;
+    let schede = document.getElementById("txtSchede").value;
+    let descrizione = document.getElementById("txtDescrizione").value;
+    let nome = document.getElementById("txtNome").value;
+
+    // verifica obbligatori
+    if (id === "" || schede === "" || descrizione === "" || nome === "") {
+        alert("Compila tutti i campi obbligatori!");
+        return;
+    }
+
+    let oggetto = encodeURIComponent("Richiesta Preventivo - " + id);
+
+    let corpo = encodeURIComponent(
+        "ID: " + id + "%0A" +
+        "Richiedente: " + nome + "%0A" +
+        "Schede richieste: " + schede + "%0A" +
+        "Descrizione: " + descrizione + "%0A%0A" +
+        "*** Nota: allegare manualmente le foto alla mail se presenti. ***"
+    );
+
+    let mailtoLink = "mailto:p.mazzucchelli@elmi-srl.it?subject=" + oggetto + "&body=" + corpo;
+
+    window.location.href = mailtoLink;
+};
+</script>
+
+</body>
+</html>
