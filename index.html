@@ -78,7 +78,11 @@
         margin-top: 20px;
         margin-bottom: 10px;
     }
-
+.button-group label {
+    display: block;
+    width: 100%;
+    margin-top: 10px; /* opzionale, per distanziare dai pulsanti */
+}
     .button:hover {
         background: #005A9E;
     }
@@ -157,11 +161,7 @@
     <button type="button" class="miniBtn" data-value="SCHEDA CABINA">SCHEDA CABINA</button>
     
 <!-- 6. Tendina dispositivi aggiuntivi -->
-.button-group label {
-    display: block;
-    width: 100%;
-    margin-top: 10px; /* opzionale, per distanziare dai pulsanti */
-}
+<label>VIAUALIZZATORE ALTRI DISPOSITIVI</label>
 <select id="selectDispositivi">
     <option value="">Seleziona altri dispositivi</option>
     <option value="SCHEDA PRENOTAZIONI 1F">SCHEDA PRENOTAZIONI 1F</option>
